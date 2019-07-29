@@ -1,16 +1,30 @@
 version: '2'
 
 services:
-  port-forwarding:
+  rtl-forwarding:
     image: tnhnclskn/port-forwarding
     ports:
       - 80:80
     volumes:
       - ~/.ssh:/root/.ssh
     environment:
-      PUBLISH_PORT: 80
-      SOURCE_ADRESS: nat-user.ip
-      SOURCE_PORT: 80
-      SSH_TUNNEL_USER: root
-      SSH_TUNNEL_ADDRESS: tunnel-server.ip
-      SSH_TUNNEL_PORT: 22
+      SRC_ADDR: nat-user.ip
+      SRC_PORT: 80
+      DST_ADDR: 0.0.0.0
+      DST_PORT: 80
+      SSH_USER: root
+      SSH_ADDR: tunnel-server.ip
+      SSH_PORT: 22
+  ltr-forwarding:
+    image: tnhnclskn/port-forwarding
+    volumes:
+      - ~/.ssh:/root/.ssh
+    environment:
+      SRC_ADDR: nat-user.ip
+      SRC_PORT: 80
+      DST_ADDR: 0.0.0.0
+      DST_PORT: 80
+      SSH_USER: root
+      SSH_ADDR: remote-server.ip
+      SSH_PORT: 22
+      ROTATE: 'reverse'
